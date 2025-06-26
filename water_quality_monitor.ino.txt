@@ -1,0 +1,30 @@
+// Pin assignments
+const int pHSensorPin = A0;
+const int turbiditySensorPin = A1;
+
+void setup() {
+  Serial.begin(9600); // Start serial monitor
+  delay(2000);
+  Serial.println("Water Quality Monitoring System Initialized...");
+}
+
+void loop() {
+  // Read analog values
+  int pHValue = analogRead(pHSensorPin);
+  int turbidityValue = analogRead(turbiditySensorPin);
+
+  // Convert to voltage for better understanding
+  float pHVoltage = pHValue * (5.0 / 1023.0);
+  float turbidityVoltage = turbidityValue * (5.0 / 1023.0);
+
+  // Estimate pH (simple estimation formula)
+  float estimatedPH = 7 + ((2.5 - pHVoltage) * 3.5); // This varies per sensor calibration
+
+  // Print results
+  Serial.print("Estimated pH: ");
+  Serial.print(estimatedPH, 2);
+  Serial.print(" | Turbidity (V): ");
+  Serial.println(turbidityVoltage, 2);
+
+  delay(3000); // Wait before next reading
+}
